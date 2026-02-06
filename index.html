@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>حلواني حرات - منذ 1934</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --brand-dark: #1a1a1a;
             --brand-gray: #4a4a4a;
             --brand-light: #f4f4f4;
             --whatsapp-green: #25D366;
-            --accent-gold: #c5a059;
+            --call-blue: #007bff;
         }
 
         body {
@@ -19,106 +20,79 @@
             background-color: var(--brand-light);
             margin: 0;
             color: var(--brand-dark);
-            padding-bottom: 140px;
+            padding-bottom: 150px;
         }
 
         header {
-            background-color: white;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0; z-index: 1000;
+            background-color: white; padding: 20px; text-align: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000;
         }
 
-        .logo { max-width: 150px; animation: fadeIn 1.5s; }
-
-        /* قسم الأكثر مبيعاً */
-        .best-sellers {
-            background: #fff;
-            padding: 20px 15px;
-            margin-bottom: 10px;
-            border-bottom: 2px solid #eee;
-        }
-        .best-title {
-            color: #b22222;
-            font-weight: bold;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .logo { max-width: 140px; }
 
         .section-title {
-            background-color: var(--brand-dark);
-            color: white;
-            padding: 12px 20px;
-            margin: 20px 0 10px 0;
-            font-size: 1.2rem;
-            border-right: 6px solid var(--brand-gray);
+            background-color: var(--brand-dark); color: white;
+            padding: 12px 20px; margin: 20px 0 10px 0; font-size: 1.2rem;
+            border-right: 6px solid #c5a059;
         }
 
         .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 12px;
-            padding: 0 12px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+            gap: 12px; padding: 0 12px;
         }
 
         .item-card {
-            background: white;
-            border: 1px solid #e5e5e5;
-            border-radius: 10px;
-            padding: 12px;
-            text-align: center;
-            transition: 0.3s;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            background: white; border: 1px solid #e5e5e5; border-radius: 12px;
+            padding: 12px; text-align: center; display: flex; flex-direction: column;
+            justify-content: space-between; transition: 0.3s;
         }
 
-        .item-card.featured {
-            border: 2px solid var(--accent-gold);
-            background: #fffdf5;
+        /* ميزة علبة مشكل */
+        .special-card {
+            background: linear-gradient(135deg, #fff 0%, #fff9e6 100%);
+            border: 2px dashed #c5a059 !important;
         }
 
-        .item-name { font-weight: bold; margin-bottom: 8px; min-height: 35px; font-size: 0.9rem; }
+        .item-name { font-weight: bold; margin-bottom: 8px; min-height: 35px; font-size: 0.95rem; }
 
-        .weight-select {
-            width: 100%;
-            padding: 6px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            background: #fff;
-            font-size: 0.85rem;
+        .weight-select, .note-input {
+            width: 100%; padding: 8px; margin-bottom: 8px; border-radius: 6px;
+            border: 1px solid #ccc; font-size: 0.85rem; box-sizing: border-box;
         }
 
-        .item-price { font-size: 1.1rem; font-weight: 800; margin-bottom: 10px; color: #b22222; }
+        .item-price { font-size: 1.15rem; font-weight: 800; color: #b22222; margin-bottom: 10px; }
 
         .add-to-cart {
-            background-color: var(--brand-dark);
-            color: white;
-            border: none;
-            padding: 8px;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: bold;
-            font-size: 0.85rem;
+            background-color: var(--brand-dark); color: white; border: none;
+            padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold;
+        }
+
+        /* زر الاتصال العائم */
+        .floating-call {
+            position: fixed; bottom: 100px; right: 20px;
+            background-color: var(--call-blue); color: white;
+            width: 55px; height: 55px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 2000;
+            text-decoration: none; font-size: 24px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
         .cart-bar {
             position: fixed; bottom: 0; left: 0; right: 0;
-            background: white; padding: 15px;
-            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+            background: white; padding: 15px; box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
             display: flex; justify-content: space-around; align-items: center; z-index: 2000;
         }
 
         .btn-send {
-            background-color: var(--whatsapp-green);
-            color: white; border: none; padding: 10px 20px;
-            border-radius: 50px; font-weight: bold; cursor: pointer;
+            background-color: var(--whatsapp-green); color: white; border: none;
+            padding: 12px 25px; border-radius: 50px; font-weight: bold; cursor: pointer;
         }
 
         #orderModal {
@@ -126,36 +100,48 @@
             background: rgba(0,0,0,0.8); z-index: 3000; justify-content: center; align-items: center;
         }
 
-        .modal-body { background: white; padding: 20px; border-radius: 15px; width: 85%; max-width: 350px; }
-        .modal-body input { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .modal-body { background: white; padding: 25px; border-radius: 15px; width: 85%; max-width: 350px; }
     </style>
 </head>
 <body>
 
 <header>
     <img src="https://i.ibb.co/3ykGf7Z/image-dda829.png" alt="Herat Logo" class="logo">
-    <p style="margin: 5px 0; color: #666; font-size: 0.9rem;">صناعة السعادة منذ 1934</p>
+    <p style="margin: 5px 0; color: #666; font-weight: bold;">صناعة السعادة منذ 1934</p>
 </header>
 
-<div class="best-sellers">
-    <div class="best-title">⭐ الأكثر مبيعاً (ترشيحنا لك)</div>
-    <div class="grid-container" id="featured-items">
-        </div>
+<div class="section-title">✨ تشكيل العلب (حسب اختيارك)</div>
+<div class="grid-container">
+    <div class="item-card special-card">
+        <div class="item-name">تجهيز علبة مشكل هدايا</div>
+        <select class="weight-select" id="w-special" onchange="upSpecial()">
+            <option value="200">1 كيلو مشكل (200ج)</option>
+            <option value="400">2 كيلو مشكل (400ج)</option>
+            <option value="600">3 كيلو مشكل (600ج)</option>
+        </select>
+        <input type="text" id="note-special" class="note-input" placeholder="اكتب الأصناف اللي تحبها هنا">
+        <div class="item-price" id="p-special">200 ج.م</div>
+        <button class="add-to-cart" onclick="addSpecial()">إضافة العلبة للسلة</button>
+    </div>
 </div>
 
 <div id="menu-content"></div>
 
+<a href="tel:01003902290" class="floating-call">
+    <i class="fas fa-phone"></i>
+</a>
+
 <div class="cart-bar">
-    <div class="total-info">🛒 <span id="cart-count">0</span> صنف | <span id="cart-total">0</span> ج.م</div>
+    <div class="total-info">🛒 <span id="cart-count">0</span> أصناف | <span id="cart-total">0</span> ج.م</div>
     <button class="btn-send" onclick="toggleModal(true)">إتمام الطلب</button>
 </div>
 
 <div id="orderModal">
-    <div class="modal-body">
-        <h3 style="text-align: center; margin-top: 0;">بيانات التوصيل</h3>
-        <input type="text" id="custName" placeholder="الاسم">
-        <input type="text" id="custAddr" placeholder="العنوان بالتفصيل">
-        <input type="tel" id="custPhone" placeholder="رقم الموبايل">
+    <div class="modal-body animate__animated animate__zoomIn">
+        <h3 style="text-align: center;">بيانات التوصيل</h3>
+        <input type="text" id="custName" class="weight-select" style="font-size: 1rem" placeholder="الاسم بالكامل">
+        <input type="text" id="custAddr" class="weight-select" style="font-size: 1rem" placeholder="العنوان بالتفصيل">
+        <input type="tel" id="custPhone" class="weight-select" style="font-size: 1rem" placeholder="رقم الموبايل">
         <button class="btn-send" style="width: 100%; margin-top: 10px;" onclick="sendWhatsApp()">إرسال واتساب</button>
         <button onclick="toggleModal(false)" style="width:100%; border:none; background:none; color:#999; margin-top:10px;">إلغاء</button>
     </div>
@@ -165,79 +151,43 @@
     const menuData = {
         "الحلويات الشرقية": [
             {n: "بسبوسة سادة", p: 110}, {n: "بسبوسة لوز", p: 120}, {n: "بسبوسة بندق", p: 160},
-            {n: "بسبوسة شامية", p: 240}, {n: "هريسة سادة", p: 130}, {n: "هريسة بندق", p: 160},
-            {n: "هريسة حشو مكسرات", p: 230}, {n: "قشطة زبيب", p: 180}, {n: "بسيمة بندق", p: 160},
-            {n: "نمورة", p: 190}, {n: "كنافة كريمة", p: 140}, {n: "كنافة نوتيلا", p: 220},
-            {n: "مكرونة", p: 80}, {n: "بغاشة", p: 170}, {n: "كنافة قشطة", p: 220},
-            {n: "كنافة مدلعة", p: 180}, {n: "شكلمة جوز هند", p: 170}, {n: "شكلمة مارنج", p: 230},
-            {n: "رموش الست", p: 180}
+            {n: "هريسة سادة", p: 130}, {n: "هريسة بندق", p: 160}, {n: "كنافة كريمة", p: 140},
+            {n: "مكرونة", p: 80}, {n: "كنافة مدلعة", p: 180}, {n: "رموش الست", p: 180}
         ],
         "النواعم": [
-            {n: "كعك ملبن", p: 190}, {n: "كعك عجوة", p: 190}, {n: "كعك عين جمل", p: 230},
-            {n: "بسكويت", p: 240}, {n: "بتي فور سادة", p: 230}, {n: "بتي فور شيكولاتة", p: 290},
-            {n: "محوجة", p: 230}
+            {n: "كعك ملبن", p: 190}, {n: "بسكويت", p: 240}, {n: "بتي فور سادة", p: 230}, {n: "محوجة", p: 230}
         ],
         "المشبك": [
-            {n: "مشبك قرص صغير", p: 20}, {n: "مشبك قرص كبير", p: 55}, {n: "مشبك سكر كيلو", p: 65},
-            {n: "مشبك عسل نحل", p: 130}, {n: "مشبك باللبن", p: 100}
-        ],
-        "الحلويات السورية": [
-            {n: "كنافة سيجار بندق", p: 345}, {n: "كنافة سيجار سادة", p: 220}, {n: "كنافة بصمة لوز", p: 300},
-            {n: "كنافة بصمة بندق", p: 320}, {n: "علي بابا", p: 170}, {n: "كنافة أساور لوز", p: 280},
-            {n: "كنافة أساور بندق", p: 280}, {n: "مشكل شرقي", p: 180}, {n: "مشكل شرقي لوكس", p: 250},
-            {n: "كنافة لف بندق", p: 400}, {n: "كنافة لف فستق", p: 750}, {n: "بقلاوة عش بندق", p: 250},
-            {n: "بقلاوة قلم", p: 250}, {n: "بقلاوة بندق", p: 250}, {n: "بقلاوة أساور", p: 250},
-            {n: "تورتة بقلاوة", p: 170}
+            {n: "مشبك قرص صغير", p: 20}, {n: "مشبك قرص كبير", p: 55}, {n: "مشبك عسل نحل", p: 130}
         ]
     };
 
-    // الـ 3 أصناف المميزة
-    const featured = [
-        {n: "مشبك عسل نحل", p: 130, s: "المشبك"},
-        {n: "كنافة مدلعة", p: 180, s: "الحلويات الشرقية"},
-        {n: "مشكل شرقي لوكس", p: 250, s: "الحلويات السورية"}
-    ];
-
     let cart = [];
-
-    function renderFeatured() {
-        const featContainer = document.getElementById('featured-items');
-        featured.forEach((item, i) => {
-            featContainer.innerHTML += createCard(item.n, item.p, 'feat', i, true);
-        });
-    }
 
     function renderMenu() {
         const container = document.getElementById('menu-content');
         for (const [section, items] of Object.entries(menuData)) {
             const secHeader = document.createElement('div');
             secHeader.className = 'section-title';
-            secHeader.innerText = "حلويات " + section;
+            secHeader.innerText = section;
             container.appendChild(secHeader);
-
             const grid = document.createElement('div');
             grid.className = 'grid-container';
             items.forEach((item, index) => {
-                grid.innerHTML += createCard(item.n, item.p, section, index, false);
+                grid.innerHTML += `
+                    <div class="item-card">
+                        <div class="item-name">${item.n}</div>
+                        <select class="weight-select" id="w-${section}-${index}" onchange="upPrice('${section}', ${index}, ${item.p})">
+                            <option value="1">1 كيلو</option>
+                            <option value="0.5">نصف كيلو</option>
+                            <option value="0.25">ربع كيلو</option>
+                        </select>
+                        <div class="item-price" id="p-${section}-${index}">${item.p} ج.م</div>
+                        <button class="add-to-cart" onclick="addToCart('${item.n}', '${section}', ${index})">إضافة للسلة</button>
+                    </div>`;
             });
             container.appendChild(grid);
         }
-    }
-
-    function createCard(name, price, section, index, isFeatured) {
-        const safeSection = section.replace(/\s/g, '');
-        return `
-            <div class="item-card ${isFeatured ? 'featured' : ''}">
-                <div class="item-name">${name}</div>
-                <select class="weight-select" id="w-${safeSection}-${index}" onchange="upPrice('${safeSection}', ${index}, ${price})">
-                    <option value="1">1 كيلو</option>
-                    <option value="0.5">نصف كيلو</option>
-                    <option value="0.25">ربع كيلو</option>
-                </select>
-                <div class="item-price" id="p-${safeSection}-${index}">${price} ج.م</div>
-                <button class="add-to-cart" onclick="addToCart('${name}', '${safeSection}', ${index})">إضافة</button>
-            </div>
-        `;
     }
 
     function upPrice(sec, idx, base) {
@@ -245,12 +195,22 @@
         document.getElementById(`p-${sec}-${idx}`).innerText = Math.round(base * w) + " ج.م";
     }
 
+    function upSpecial() {
+        document.getElementById('p-special').innerText = document.getElementById('w-special').value + " ج.م";
+    }
+
+    function addSpecial() {
+        const wLabel = document.getElementById('w-special').options[document.getElementById('w-special').selectedIndex].text;
+        const note = document.getElementById('note-special').value || "تشكيل المحل";
+        cart.push({name: `علبة مشكل (${note})`, weight: wLabel, price: parseInt(document.getElementById('p-special').innerText)});
+        updateCart(); alert("تمت إضافة العلبة المشكلة");
+    }
+
     function addToCart(name, sec, idx) {
-        const weightText = document.getElementById(`w-${sec}-${idx}`).options[document.getElementById(`w-${sec}-${idx}`).selectedIndex].text;
+        const wLabel = document.getElementById(`w-${sec}-${idx}`).options[document.getElementById(`w-${sec}-${idx}`).selectedIndex].text;
         const price = parseInt(document.getElementById(`p-${sec}-${idx}`).innerText);
-        cart.push({name, weightText, price});
+        cart.push({name, weight: wLabel, price});
         updateCart();
-        alert("تمت إضافة " + name + " للسلة");
     }
 
     function updateCart() {
@@ -261,18 +221,13 @@
     function toggleModal(show) { document.getElementById('orderModal').style.display = show ? 'flex' : 'none'; }
 
     function sendWhatsApp() {
-        const name = document.getElementById('custName').value;
-        const addr = document.getElementById('custAddr').value;
-        const phone = document.getElementById('custPhone').value;
-        if(!name || !addr || !phone) return alert("أكمل البيانات");
-
-        const items = cart.map(i => `• ${i.name} (${i.weightText})`).join('%0A');
+        const n = document.getElementById('custName').value, a = document.getElementById('custAddr').value, p = document.getElementById('custPhone').value;
+        if(!n || !a || !p) return alert("أكمل البيانات");
+        const items = cart.map(i => `• ${i.name} [${i.weight}]`).join('%0A');
         const total = cart.reduce((s, i) => s + i.price, 0);
-        const msg = `*طلب جديد من حرات*%0A%0A*الاسم:* ${name}%0A*العنوان:* ${addr}%0A%0A*الطلبات:*%0A${items}%0A%0A*الإجمالي:* ${total} ج.م`;
-        window.open(`https://wa.me/201003902290?text=${msg}`, '_blank');
+        window.open(`https://wa.me/201003902290?text=*طلب جديد من حرات*%0A%0A*الاسم:* ${n}%0A*العنوان:* ${a}%0A*الطلبات:*%0A${items}%0A%0A*الإجمالي:* ${total}ج`, '_blank');
     }
 
-    renderFeatured();
     renderMenu();
 </script>
 </body>
