@@ -33,27 +33,43 @@
 
         .logo { max-width: 150px; animation: fadeIn 1.5s; }
 
+        /* قسم الأكثر مبيعاً */
+        .best-sellers {
+            background: #fff;
+            padding: 20px 15px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+        .best-title {
+            color: #b22222;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .section-title {
             background-color: var(--brand-dark);
             color: white;
-            padding: 15px 25px;
-            margin: 30px 0 10px 0;
-            font-size: 1.3rem;
-            border-right: 8px solid var(--brand-gray);
+            padding: 12px 20px;
+            margin: 20px 0 10px 0;
+            font-size: 1.2rem;
+            border-right: 6px solid var(--brand-gray);
         }
 
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 15px;
-            padding: 0 15px;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            padding: 0 12px;
         }
 
         .item-card {
             background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 15px;
+            border: 1px solid #e5e5e5;
+            border-radius: 10px;
+            padding: 12px;
             text-align: center;
             transition: 0.3s;
             display: flex;
@@ -61,82 +77,87 @@
             justify-content: space-between;
         }
 
-        .item-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .item-card.featured {
+            border: 2px solid var(--accent-gold);
+            background: #fffdf5;
+        }
 
-        .item-name { font-weight: bold; margin-bottom: 10px; min-height: 40px; font-size: 0.95rem; }
+        .item-name { font-weight: bold; margin-bottom: 8px; min-height: 35px; font-size: 0.9rem; }
 
         .weight-select {
             width: 100%;
-            padding: 8px;
-            margin-bottom: 12px;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-            background: #fdfdfd;
-            font-family: inherit;
+            padding: 6px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background: #fff;
+            font-size: 0.85rem;
         }
 
-        .item-price { font-size: 1.2rem; font-weight: 800; margin-bottom: 12px; color: #b22222; }
+        .item-price { font-size: 1.1rem; font-weight: 800; margin-bottom: 10px; color: #b22222; }
 
         .add-to-cart {
             background-color: var(--brand-dark);
             color: white;
             border: none;
-            padding: 10px;
-            border-radius: 6px;
+            padding: 8px;
+            border-radius: 5px;
             cursor: pointer;
             width: 100%;
             font-weight: bold;
-            transition: 0.2s;
+            font-size: 0.85rem;
         }
-        .add-to-cart:active { transform: scale(0.95); }
 
         .cart-bar {
             position: fixed; bottom: 0; left: 0; right: 0;
-            background: white; padding: 20px;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            background: white; padding: 15px;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
             display: flex; justify-content: space-around; align-items: center; z-index: 2000;
         }
 
-        .total-info { font-weight: bold; font-size: 1rem; }
-
         .btn-send {
             background-color: var(--whatsapp-green);
-            color: white; border: none; padding: 12px 25px;
-            border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 1rem;
+            color: white; border: none; padding: 10px 20px;
+            border-radius: 50px; font-weight: bold; cursor: pointer;
         }
 
         #orderModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); z-index: 3000; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.8); z-index: 3000; justify-content: center; align-items: center;
         }
 
-        .modal-body { background: white; padding: 25px; border-radius: 20px; width: 85%; max-width: 380px; }
-        .modal-body h2 { margin-top: 0; text-align: center; font-size: 1.5rem; }
-        .modal-body input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; }
+        .modal-body { background: white; padding: 20px; border-radius: 15px; width: 85%; max-width: 350px; }
+        .modal-body input { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
 <header>
     <img src="https://i.ibb.co/3ykGf7Z/image-dda829.png" alt="Herat Logo" class="logo">
-    <p style="margin: 5px 0; color: #666; font-weight: bold;">صناعة السعادة منذ 1934</p>
+    <p style="margin: 5px 0; color: #666; font-size: 0.9rem;">صناعة السعادة منذ 1934</p>
 </header>
+
+<div class="best-sellers">
+    <div class="best-title">⭐ الأكثر مبيعاً (ترشيحنا لك)</div>
+    <div class="grid-container" id="featured-items">
+        </div>
+</div>
 
 <div id="menu-content"></div>
 
 <div class="cart-bar">
-    <div class="total-info">🛒 الأصناف: <span id="cart-count">0</span> | الإجمالي: <span id="cart-total">0</span> ج.م</div>
+    <div class="total-info">🛒 <span id="cart-count">0</span> صنف | <span id="cart-total">0</span> ج.م</div>
     <button class="btn-send" onclick="toggleModal(true)">إتمام الطلب</button>
 </div>
 
 <div id="orderModal">
-    <div class="modal-body animate__animated animate__zoomIn">
-        <h2>بيانات التوصيل 🚚</h2>
-        <input type="text" id="custName" placeholder="الاسم بالكامل">
-        <input type="text" id="custAddr" placeholder="العنوان بالتفصيل (دمياط / رأس البر)">
+    <div class="modal-body">
+        <h3 style="text-align: center; margin-top: 0;">بيانات التوصيل</h3>
+        <input type="text" id="custName" placeholder="الاسم">
+        <input type="text" id="custAddr" placeholder="العنوان بالتفصيل">
         <input type="tel" id="custPhone" placeholder="رقم الموبايل">
-        <button class="btn-send" style="width: 100%; margin-top: 15px;" onclick="sendWhatsApp()">تأكيد وإرسال للواتساب</button>
-        <button onclick="toggleModal(false)" style="width:100%; border:none; background:none; color:#999; margin-top:10px; cursor:pointer;">إلغاء</button>
+        <button class="btn-send" style="width: 100%; margin-top: 10px;" onclick="sendWhatsApp()">إرسال واتساب</button>
+        <button onclick="toggleModal(false)" style="width:100%; border:none; background:none; color:#999; margin-top:10px;">إلغاء</button>
     </div>
 </div>
 
@@ -170,64 +191,71 @@
         ]
     };
 
+    // الـ 3 أصناف المميزة
+    const featured = [
+        {n: "مشبك عسل نحل", p: 130, s: "المشبك"},
+        {n: "كنافة مدلعة", p: 180, s: "الحلويات الشرقية"},
+        {n: "مشكل شرقي لوكس", p: 250, s: "الحلويات السورية"}
+    ];
+
     let cart = [];
+
+    function renderFeatured() {
+        const featContainer = document.getElementById('featured-items');
+        featured.forEach((item, i) => {
+            featContainer.innerHTML += createCard(item.n, item.p, 'feat', i, true);
+        });
+    }
 
     function renderMenu() {
         const container = document.getElementById('menu-content');
         for (const [section, items] of Object.entries(menuData)) {
             const secHeader = document.createElement('div');
-            secHeader.className = 'section-title animate__animated animate__fadeInRight';
+            secHeader.className = 'section-title';
             secHeader.innerText = "حلويات " + section;
             container.appendChild(secHeader);
 
             const grid = document.createElement('div');
             grid.className = 'grid-container';
-            
             items.forEach((item, index) => {
-                grid.innerHTML += `
-                    <div class="item-card animate__animated animate__fadeInUp">
-                        <div class="item-name">${item.n}</div>
-                        <select class="weight-select" id="weight-${section}-${index}" onchange="updatePriceDisplay('${section}', ${index}, ${item.p})">
-                            <option value="1">1 كيلو</option>
-                            <option value="0.5">نصف كيلو</option>
-                            <option value="0.25">ربع كيلو</option>
-                        </select>
-                        <div class="item-price" id="price-${section}-${index}">${item.p} ج.م</div>
-                        <button class="add-to-cart" onclick="addToCart('${item.n}', '${section}', ${index})">إضافة للسلة</button>
-                    </div>
-                `;
+                grid.innerHTML += createCard(item.n, item.p, section, index, false);
             });
             container.appendChild(grid);
         }
     }
 
-    function updatePriceDisplay(section, index, basePrice) {
-        const weight = document.getElementById(`weight-${section}-${index}`).value;
-        const finalPrice = Math.round(basePrice * weight);
-        document.getElementById(`price-${section}-${index}`).innerText = finalPrice + " ج.م";
+    function createCard(name, price, section, index, isFeatured) {
+        const safeSection = section.replace(/\s/g, '');
+        return `
+            <div class="item-card ${isFeatured ? 'featured' : ''}">
+                <div class="item-name">${name}</div>
+                <select class="weight-select" id="w-${safeSection}-${index}" onchange="upPrice('${safeSection}', ${index}, ${price})">
+                    <option value="1">1 كيلو</option>
+                    <option value="0.5">نصف كيلو</option>
+                    <option value="0.25">ربع كيلو</option>
+                </select>
+                <div class="item-price" id="p-${safeSection}-${index}">${price} ج.م</div>
+                <button class="add-to-cart" onclick="addToCart('${name}', '${safeSection}', ${index})">إضافة</button>
+            </div>
+        `;
     }
 
-    function addToCart(name, section, index) {
-        const weightLabel = document.getElementById(`weight-${section}-${index}`).options[document.getElementById(`weight-${section}-${index}`).selectedIndex].text;
-        const priceText = document.getElementById(`price-${section}-${index}`).innerText;
-        const finalPrice = parseInt(priceText);
-        
-        cart.push({name, weight: weightLabel, price: finalPrice});
+    function upPrice(sec, idx, base) {
+        const w = document.getElementById(`w-${sec}-${idx}`).value;
+        document.getElementById(`p-${sec}-${idx}`).innerText = Math.round(base * w) + " ج.م";
+    }
+
+    function addToCart(name, sec, idx) {
+        const weightText = document.getElementById(`w-${sec}-${idx}`).options[document.getElementById(`w-${sec}-${idx}`).selectedIndex].text;
+        const price = parseInt(document.getElementById(`p-${sec}-${idx}`).innerText);
+        cart.push({name, weightText, price});
         updateCart();
-        
-        const btn = event.target;
-        btn.innerText = "تمت الإضافة ✓";
-        btn.style.background = "#28a745";
-        setTimeout(() => {
-            btn.innerText = "إضافة للسلة";
-            btn.style.background = "var(--brand-dark)";
-        }, 800);
+        alert("تمت إضافة " + name + " للسلة");
     }
 
     function updateCart() {
         document.getElementById('cart-count').innerText = cart.length;
-        const total = cart.reduce((s, i) => s + i.price, 0);
-        document.getElementById('cart-total').innerText = total;
+        document.getElementById('cart-total').innerText = cart.reduce((s, i) => s + i.price, 0);
     }
 
     function toggleModal(show) { document.getElementById('orderModal').style.display = show ? 'flex' : 'none'; }
@@ -236,16 +264,15 @@
         const name = document.getElementById('custName').value;
         const addr = document.getElementById('custAddr').value;
         const phone = document.getElementById('custPhone').value;
-        if(!name || !addr || !phone) return alert("من فضلك أكمل جميع البيانات");
+        if(!name || !addr || !phone) return alert("أكمل البيانات");
 
-        const itemsList = cart.map(i => `• ${i.name} [${i.weight}] (${i.price}ج)`).join('%0A');
+        const items = cart.map(i => `• ${i.name} (${i.weightText})`).join('%0A');
         const total = cart.reduce((s, i) => s + i.price, 0);
-        const msg = `*طلب جديد من متجر حرات 1934*%0A%0A*العميل:* ${name}%0A*الهاتف:* ${phone}%0A*العنوان:* ${addr}%0A%0A*الطلبات:*%0A${itemsList}%0A%0A*الإجمالي:* ${total} جنيه`;
-        
+        const msg = `*طلب جديد من حرات*%0A%0A*الاسم:* ${name}%0A*العنوان:* ${addr}%0A%0A*الطلبات:*%0A${items}%0A%0A*الإجمالي:* ${total} ج.م`;
         window.open(`https://wa.me/201003902290?text=${msg}`, '_blank');
-        cart = []; updateCart(); toggleModal(false);
     }
 
+    renderFeatured();
     renderMenu();
 </script>
 </body>
