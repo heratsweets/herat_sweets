@@ -11,6 +11,7 @@
             --brand-gray: #4a4a4a;
             --brand-light: #f4f4f4;
             --whatsapp-green: #25D366;
+            --accent-gold: #c5a059;
         }
 
         body {
@@ -36,14 +37,14 @@
             background-color: var(--brand-dark);
             color: white;
             padding: 15px 25px;
-            margin: 30px 0 15px 0;
-            font-size: 1.4rem;
+            margin: 30px 0 10px 0;
+            font-size: 1.3rem;
             border-right: 8px solid var(--brand-gray);
         }
 
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 15px;
             padding: 0 15px;
         }
@@ -51,92 +52,121 @@
         .item-card {
             background: white;
             border: 1px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 15px;
             text-align: center;
             transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        .item-name { font-weight: bold; margin-bottom: 10px; height: 40px; }
+        .item-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+        .item-name { font-weight: bold; margin-bottom: 10px; min-height: 40px; font-size: 0.95rem; }
 
         .weight-select {
             width: 100%;
             padding: 8px;
-            margin-bottom: 10px;
-            border-radius: 5px;
+            margin-bottom: 12px;
+            border-radius: 6px;
             border: 1px solid #ddd;
-            background: #f9f9f9;
+            background: #fdfdfd;
+            font-family: inherit;
         }
 
-        .item-price { font-size: 1.2rem; font-weight: 800; margin-bottom: 10px; color: #b22222; }
+        .item-price { font-size: 1.2rem; font-weight: 800; margin-bottom: 12px; color: #b22222; }
 
         .add-to-cart {
             background-color: var(--brand-dark);
             color: white;
             border: none;
             padding: 10px;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
             width: 100%;
             font-weight: bold;
+            transition: 0.2s;
         }
+        .add-to-cart:active { transform: scale(0.95); }
 
         .cart-bar {
             position: fixed; bottom: 0; left: 0; right: 0;
             background: white; padding: 20px;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
             display: flex; justify-content: space-around; align-items: center; z-index: 2000;
         }
 
+        .total-info { font-weight: bold; font-size: 1rem; }
+
         .btn-send {
             background-color: var(--whatsapp-green);
-            color: white; border: none; padding: 12px 30px;
-            border-radius: 50px; font-weight: bold; cursor: pointer;
+            color: white; border: none; padding: 12px 25px;
+            border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 1rem;
         }
 
         #orderModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); z-index: 3000; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.85); z-index: 3000; justify-content: center; align-items: center;
         }
 
-        .modal-body { background: white; padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; }
-        .modal-body input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .modal-body { background: white; padding: 25px; border-radius: 20px; width: 85%; max-width: 380px; }
+        .modal-body h2 { margin-top: 0; text-align: center; font-size: 1.5rem; }
+        .modal-body input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
 <header>
     <img src="https://i.ibb.co/3ykGf7Z/image-dda829.png" alt="Herat Logo" class="logo">
-    <p style="margin: 5px 0; color: #666;">صناعة السعادة منذ 1934</p>
+    <p style="margin: 5px 0; color: #666; font-weight: bold;">صناعة السعادة منذ 1934</p>
 </header>
 
 <div id="menu-content"></div>
 
 <div class="cart-bar">
-    <div class="total-info">🛒 <span id="cart-count">0</span> أصناف | الإجمالي: <span id="cart-total">0</span> ج.م</div>
+    <div class="total-info">🛒 الأصناف: <span id="cart-count">0</span> | الإجمالي: <span id="cart-total">0</span> ج.م</div>
     <button class="btn-send" onclick="toggleModal(true)">إتمام الطلب</button>
 </div>
 
 <div id="orderModal">
     <div class="modal-body animate__animated animate__zoomIn">
-        <h2 style="text-align: center;">بيانات التوصيل</h2>
-        <input type="text" id="custName" placeholder="الاسم">
-        <input type="text" id="custAddr" placeholder="العنوان">
-        <input type="tel" id="custPhone" placeholder="الموبايل">
-        <button class="btn-send" style="width: 100%; margin-top: 15px;" onclick="sendWhatsApp()">إرسال واتساب</button>
-        <button onclick="toggleModal(false)" style="width:100%; border:none; background:none; color:#999; margin-top:10px;">إلغاء</button>
+        <h2>بيانات التوصيل 🚚</h2>
+        <input type="text" id="custName" placeholder="الاسم بالكامل">
+        <input type="text" id="custAddr" placeholder="العنوان بالتفصيل (دمياط / رأس البر)">
+        <input type="tel" id="custPhone" placeholder="رقم الموبايل">
+        <button class="btn-send" style="width: 100%; margin-top: 15px;" onclick="sendWhatsApp()">تأكيد وإرسال للواتساب</button>
+        <button onclick="toggleModal(false)" style="width:100%; border:none; background:none; color:#999; margin-top:10px; cursor:pointer;">إلغاء</button>
     </div>
 </div>
 
 <script>
     const menuData = {
-        "الشرقية": [
+        "الحلويات الشرقية": [
             {n: "بسبوسة سادة", p: 110}, {n: "بسبوسة لوز", p: 120}, {n: "بسبوسة بندق", p: 160},
-            {n: "هريسة سادة", p: 130}, {n: "هريسة بندق", p: 160}, {n: "كنافة كريمة", p: 140},
-            {n: "كنافة مدلعة", p: 180}, {n: "رموش الست", p: 180}
+            {n: "بسبوسة شامية", p: 240}, {n: "هريسة سادة", p: 130}, {n: "هريسة بندق", p: 160},
+            {n: "هريسة حشو مكسرات", p: 230}, {n: "قشطة زبيب", p: 180}, {n: "بسيمة بندق", p: 160},
+            {n: "نمورة", p: 190}, {n: "كنافة كريمة", p: 140}, {n: "كنافة نوتيلا", p: 220},
+            {n: "مكرونة", p: 80}, {n: "بغاشة", p: 170}, {n: "كنافة قشطة", p: 220},
+            {n: "كنافة مدلعة", p: 180}, {n: "شكلمة جوز هند", p: 170}, {n: "شكلمة مارنج", p: 230},
+            {n: "رموش الست", p: 180}
+        ],
+        "النواعم": [
+            {n: "كعك ملبن", p: 190}, {n: "كعك عجوة", p: 190}, {n: "كعك عين جمل", p: 230},
+            {n: "بسكويت", p: 240}, {n: "بتي فور سادة", p: 230}, {n: "بتي فور شيكولاتة", p: 290},
+            {n: "محوجة", p: 230}
         ],
         "المشبك": [
-            {n: "مشبك عسل نحل", p: 130}, {n: "مشبك باللبن", p: 100}, {n: "مشبك سكر كيلو", p: 65}
+            {n: "مشبك قرص صغير", p: 20}, {n: "مشبك قرص كبير", p: 55}, {n: "مشبك سكر كيلو", p: 65},
+            {n: "مشبك عسل نحل", p: 130}, {n: "مشبك باللبن", p: 100}
+        ],
+        "الحلويات السورية": [
+            {n: "كنافة سيجار بندق", p: 345}, {n: "كنافة سيجار سادة", p: 220}, {n: "كنافة بصمة لوز", p: 300},
+            {n: "كنافة بصمة بندق", p: 320}, {n: "علي بابا", p: 170}, {n: "كنافة أساور لوز", p: 280},
+            {n: "كنافة أساور بندق", p: 280}, {n: "مشكل شرقي", p: 180}, {n: "مشكل شرقي لوكس", p: 250},
+            {n: "كنافة لف بندق", p: 400}, {n: "كنافة لف فستق", p: 750}, {n: "بقلاوة عش بندق", p: 250},
+            {n: "بقلاوة قلم", p: 250}, {n: "بقلاوة بندق", p: 250}, {n: "بقلاوة أساور", p: 250},
+            {n: "تورتة بقلاوة", p: 170}
         ]
     };
 
@@ -146,7 +176,7 @@
         const container = document.getElementById('menu-content');
         for (const [section, items] of Object.entries(menuData)) {
             const secHeader = document.createElement('div');
-            secHeader.className = 'section-title';
+            secHeader.className = 'section-title animate__animated animate__fadeInRight';
             secHeader.innerText = "حلويات " + section;
             container.appendChild(secHeader);
 
@@ -155,15 +185,15 @@
             
             items.forEach((item, index) => {
                 grid.innerHTML += `
-                    <div class="item-card">
+                    <div class="item-card animate__animated animate__fadeInUp">
                         <div class="item-name">${item.n}</div>
                         <select class="weight-select" id="weight-${section}-${index}" onchange="updatePriceDisplay('${section}', ${index}, ${item.p})">
                             <option value="1">1 كيلو</option>
-                            <option value="0.5">نص كيلو</option>
+                            <option value="0.5">نصف كيلو</option>
                             <option value="0.25">ربع كيلو</option>
                         </select>
                         <div class="item-price" id="price-${section}-${index}">${item.p} ج.م</div>
-                        <button class="add-to-cart" onclick="addToCart('${item.n}', ${section}, ${index})">إضافة للسلة</button>
+                        <button class="add-to-cart" onclick="addToCart('${item.n}', '${section}', ${index})">إضافة للسلة</button>
                     </div>
                 `;
             });
@@ -179,14 +209,24 @@
 
     function addToCart(name, section, index) {
         const weightLabel = document.getElementById(`weight-${section}-${index}`).options[document.getElementById(`weight-${section}-${index}`).selectedIndex].text;
-        const finalPrice = parseInt(document.getElementById(`price-${section}-${index}`).innerText);
-        cart.push({name, weightLabel, finalPrice});
+        const priceText = document.getElementById(`price-${section}-${index}`).innerText;
+        const finalPrice = parseInt(priceText);
+        
+        cart.push({name, weight: weightLabel, price: finalPrice});
         updateCart();
+        
+        const btn = event.target;
+        btn.innerText = "تمت الإضافة ✓";
+        btn.style.background = "#28a745";
+        setTimeout(() => {
+            btn.innerText = "إضافة للسلة";
+            btn.style.background = "var(--brand-dark)";
+        }, 800);
     }
 
     function updateCart() {
         document.getElementById('cart-count').innerText = cart.length;
-        const total = cart.reduce((s, i) => s + i.finalPrice, 0);
+        const total = cart.reduce((s, i) => s + i.price, 0);
         document.getElementById('cart-total').innerText = total;
     }
 
@@ -196,11 +236,11 @@
         const name = document.getElementById('custName').value;
         const addr = document.getElementById('custAddr').value;
         const phone = document.getElementById('custPhone').value;
-        if(!name || !addr || !phone) return alert("أكمل البيانات");
+        if(!name || !addr || !phone) return alert("من فضلك أكمل جميع البيانات");
 
-        const itemsList = cart.map(i => `• ${i.name} [${i.weightLabel}] (${i.finalPrice}ج)`).join('%0A');
-        const total = cart.reduce((s, i) => s + i.finalPrice, 0);
-        const msg = `*طلب جديد من حرات*%0A%0A*العميل:* ${name}%0A*العنوان:* ${addr}%0A%0A*الطلبات:*%0A${itemsList}%0A%0A*الإجمالي:* ${total} جنيه`;
+        const itemsList = cart.map(i => `• ${i.name} [${i.weight}] (${i.price}ج)`).join('%0A');
+        const total = cart.reduce((s, i) => s + i.price, 0);
+        const msg = `*طلب جديد من متجر حرات 1934*%0A%0A*العميل:* ${name}%0A*الهاتف:* ${phone}%0A*العنوان:* ${addr}%0A%0A*الطلبات:*%0A${itemsList}%0A%0A*الإجمالي:* ${total} جنيه`;
         
         window.open(`https://wa.me/201003902290?text=${msg}`, '_blank');
         cart = []; updateCart(); toggleModal(false);
